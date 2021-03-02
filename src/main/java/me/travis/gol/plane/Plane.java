@@ -1,10 +1,10 @@
 package me.travis.gol.plane;
 
-import me.travis.gol.person.Person;
+import me.travis.gol.object.Blank;
 
 public class Plane {
 
-    private Person[][] plane;
+    private Blank[][] plane;
     private int x;
     private int y;
 
@@ -14,16 +14,16 @@ public class Plane {
         this.initPlane(x, y);
     }
 
-    public Person[][] getPlane() {
+    public Blank[][] getPlane() {
         return this.plane;
     }
 
     private void initPlane(int x, int y) {
-        this.plane = new Person[x][];
+        this.plane = new Blank[x][];
         for (int i = 0; i < x; i++) {
-            this.plane[i] = new Person[y];
+            this.plane[i] = new Blank[y];
             for (int j = 0; j < y; j++) {
-                this.plane[i][j] = new Person(0);
+                this.plane[i][j] = new Blank();
             }
         }
     }
