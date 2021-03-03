@@ -1,8 +1,8 @@
 package me.travis.gol.object.things;
 
-import me.travis.gol.object.Object;
+import me.travis.gol.object.Obj;
 
-public class Animal extends Object {
+public class Animal extends Obj {
 
     @Override
     public boolean canMove() {
@@ -17,6 +17,11 @@ public class Animal extends Object {
     @Override
     public boolean canDie() {
         return true;
+    }
+
+    @Override
+    public String getId() {
+        return "A";
     }
 
 }

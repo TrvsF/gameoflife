@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/com.googlecode.lanterna/lanterna
+    implementation group: 'com.googlecode.lanterna', name: 'lanterna', version: '2.1.8'
 }
 
 jar {
