@@ -10,4 +10,8 @@ public class Util {
         return random.nextInt((max - min) + 1) + min;
     }
 
+    public static int tpsToMs(int tps) {
+        return (1/tps) * 1000;
+    }
+
 }
