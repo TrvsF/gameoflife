@@ -14,17 +14,18 @@ public class Person extends Obj {
         this.age = 0;
     }
 
-    public void nextTick() {
-        this.daysWithoutShelter++;
-        this.age++;
-    }
-
     public boolean isMan() {
         return this.sex == 1;
     }
 
     public boolean isWoman() {
         return this.sex == -1;
+    }
+
+    @Override
+    public void tick() {
+        this.daysWithoutShelter++;
+        this.age++;
     }
 
     @Override
@@ -40,6 +41,11 @@ public class Person extends Obj {
     @Override
     public boolean canDie() {
         return true;
+    }
+
+    @Override
+    public boolean isDead() {
+        return false;
     }
 
     @Override

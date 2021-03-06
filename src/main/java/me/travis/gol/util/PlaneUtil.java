@@ -1,5 +1,8 @@
 package me.travis.gol.util;
 
+import me.travis.gol.object.Blank;
+import me.travis.gol.object.Obj;
+import me.travis.gol.object.things.House;
 import me.travis.gol.plane.Plane;
 
 public class PlaneUtil {
@@ -17,6 +20,15 @@ public class PlaneUtil {
             }
             System.out.print("\n");
         }
+    }
+
+    public void checkObj(Plane plane, int x, int y) {
+        Obj o = plane.getPlane()[x][y];
+
+        if (o instanceof Blank) return;
+
+
+
     }
 
 }
