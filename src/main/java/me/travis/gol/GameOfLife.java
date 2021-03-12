@@ -9,9 +9,11 @@ public class GameOfLife {
 
     private static final Engine ENGINE = new Engine();
 
+    private static Plane p;
+
     public static void main(String[] args) {
 
-        Plane p = new Plane(50, 50);
+        p = new Plane(20, 20);
         p.generateRandomPlane();
         PlaneUtil.printDebugPlane(p);
 
@@ -23,6 +25,10 @@ public class GameOfLife {
         int ms = Util.tpsToMs(ENGINE.getTps()) > 0 ?  Util.tpsToMs(ENGINE.getTps()) : 1;
         ENGINE.getTimer().purge();
         ENGINE.getTimer().schedule(new Engine(), 0, ms);
+    }
+
+    public static Plane getPlane() {
+        return p;
     }
 
 }

@@ -1,6 +1,7 @@
 package me.travis.gol.object.things;
 
 import me.travis.gol.object.Obj;
+import me.travis.gol.util.PlaneUtil;
 import me.travis.gol.util.Util;
 
 public class Animal extends Obj {
