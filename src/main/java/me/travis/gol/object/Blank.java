@@ -1,5 +1,10 @@
 package me.travis.gol.object;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Blank extends Obj {
 
     @Override
@@ -28,5 +33,17 @@ public class Blank extends Obj {
     @Override
     public String getId() {
         return "x";
+    }
+
+    @Override
+    public BufferedImage getImage() {
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File("src/main/resources/blank.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            img = null;
+        }
+        return img;
     }
 }

@@ -2,6 +2,11 @@ package me.travis.gol.object.person;
 
 import me.travis.gol.object.Obj;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Person extends Obj {
 
     private final int sex;
@@ -52,4 +57,17 @@ public class Person extends Obj {
     public String getId() {
         return "P";
     }
+
+    @Override
+    public BufferedImage getImage() {
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File("src/main/resources/person.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            img = null;
+        }
+        return img;
+    }
+
 }

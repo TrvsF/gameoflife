@@ -2,6 +2,11 @@ package me.travis.gol.object.things;
 
 import me.travis.gol.object.Obj;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 /**
  * House object
  * house is needed for people to survive for a long time
@@ -45,6 +50,18 @@ public class House extends Obj {
     @Override
     public String getId() {
         return "H";
+    }
+
+    @Override
+    public BufferedImage getImage() {
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File("src/main/resources/blank.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            img = null;
+        }
+        return img;
     }
 
 }

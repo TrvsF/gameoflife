@@ -16,6 +16,16 @@ public class PlaneUtil {
      * @param plane Given plane
      */
     public static void printDebugPlane(Plane plane) {
+        System.out.print("\n");
+        for (int i = 0; i < plane.getPlane().length; i++) {
+            for (int j = 0; j < plane.getPlane()[i].length; j++) {
+                System.out.print(plane.getPlane()[i][j].getId() + ("  "));
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public static void printDebugPlaneWithCoords(Plane plane) {
         for (int i = 0; i < plane.getX(); i++) {
             System.out.print(i + 1 + (i > 9 ? " " : "  "));
         }
@@ -31,6 +41,43 @@ public class PlaneUtil {
     }
 
     public static void checkObj(int x, int y) {
+        if (GameOfLife.ENGINE.getMode() == 1) {
+            checkObjNew(x, y);
+        } else {
+            checkObjClassic(x, y);
+        }
+    }
+
+    private static void checkObjClassic(int x, int y) {
+        Obj o = GameOfLife.getPlane().getPlane()[x][y];
+
+        if (o instanceof Blank) {
+            int n = 0;
+            for (Obj _o : getNearby(x, y, 1)) {
+                if (_o instanceof Person) {
+                    n++;
+                }
+            }
+            if (n == 3) { // new person
+                GameOfLife.getPlane().getPlane()[x][y] = new Person(Util.getRandomInt(0, 1));
+            }
+        }
+
+        if (o instanceof Person) {
+            int n = 0;
+            for (Obj _o : getNearby(x, y, 1)) {
+                if (_o instanceof Person) {
+                    n++;
+                }
+            }
+            if (n < 2 || n > 3) { // dies of under or over pop
+                GameOfLife.getPlane().getPlane()[x][y] = new Blank();
+            }
+        }
+
+    }
+
+    private static void checkObjNew(int x, int y) {
         Obj o = GameOfLife.getPlane().getPlane()[x][y];
 
         if (o instanceof Blank) return;
@@ -43,7 +90,6 @@ public class PlaneUtil {
         if (o.isDead()) {
             GameOfLife.getPlane().getPlane()[x][y] = new Blank();
         }
-
     }
 
     private static void moveRandomDirection(int radius, int x, int y) {
@@ -70,8 +116,8 @@ public class PlaneUtil {
     private static List<Obj> getNearby(int x, int y, int radius) {
         List<Obj> objs = new ArrayList<>();
 
-        for (int i = -radius; i < radius; i++) {
-            for (int j = -radius; j < radius; j++) {
+        for (int i = -radius; i <= radius; i++) {
+            for (int j = -radius; j <= radius; j++) {
                 if ((i == 0 && j == 0) || isOOB(x + i, y + j)) continue; // don't care if OOB or is own object
                 objs.add(GameOfLife.getPlane().getPlane()[x + i][y + j]);
             }

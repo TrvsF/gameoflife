@@ -9,11 +9,20 @@ import java.util.TimerTask;
 public class Engine extends TimerTask {
 
     private final Timer timer;
+
+    // 0 = classic
+    // 1 = new
+    private final int mode;
     private int tps;
 
-    public Engine() {
+    public Engine(int mode) {
+        this.mode = mode;
         this.tps = 1;
         this.timer = new Timer();
+    }
+
+    public int getMode() {
+        return this.mode;
     }
 
     public int getTps() {
@@ -40,6 +49,10 @@ public class Engine extends TimerTask {
         }
 
         PlaneUtil.printDebugPlane(GameOfLife.getPlane());
+        try {
+            GameOfLife.WINDOW.refresh(true);
+            GameOfLife.WINDOW.refresh(false);
+        } catch (Exception ignored) {}
 
     }
 }

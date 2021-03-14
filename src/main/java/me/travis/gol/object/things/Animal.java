@@ -4,6 +4,11 @@ import me.travis.gol.object.Obj;
 import me.travis.gol.util.PlaneUtil;
 import me.travis.gol.util.Util;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Animal extends Obj {
 
     private int age;
@@ -45,6 +50,18 @@ public class Animal extends Obj {
     @Override
     public String getId() {
         return "A";
+    }
+
+    @Override
+    public BufferedImage getImage() {
+        BufferedImage img;
+        try {
+            img = ImageIO.read(new File("src/main/resources/blank.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            img = null;
+        }
+        return img;
     }
 
 }

@@ -1,5 +1,7 @@
 package me.travis.gol.object;
 
+import java.awt.image.BufferedImage;
+
 public abstract class Obj {
 
     public abstract void tick();
@@ -13,5 +15,7 @@ public abstract class Obj {
     public abstract boolean isDead();
 
     public abstract String getId();
+
+    public abstract BufferedImage getImage();
 
 }
