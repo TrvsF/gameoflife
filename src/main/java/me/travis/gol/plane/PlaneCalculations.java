@@ -105,11 +105,8 @@ public class PlaneCalculations {
                     if (n > 3) break; // speed
                 }
             }
-            if (n < 2) { // under pop
-                newBoard[x][y] = new Blank("U");
-            }
-            if (n > 3) { // over pop
-                newBoard[x][y] = new Blank("O");
+            if (n < 2 || n > 3) {
+                newBoard[x][y] = new Blank();
             }
         }
     }

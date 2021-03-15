@@ -28,12 +28,12 @@ public class Engine extends TimerTask {
         this.timer = new Timer();
     }
 
-    public void start() {
-        this.running = true;
+    public void toggle() {
+        this.running = !this.running;
     }
 
-    public void stop() {
-        this.running = false;
+    public void start() {
+        this.running = true;
     }
 
     public boolean isRunning() {
@@ -62,7 +62,7 @@ public class Engine extends TimerTask {
     @Override
     public void run() {
 
-        if (running) {
+        if (this.isRunning()) {
             // do next tick of game
             Obj[][] newBoard = PlaneCalculations.clonePlane(GameOfLife.PLANE.getPlane());
             for (int i = 0; i < GameOfLife.PLANE.getPlane().length; i++) {

@@ -1,5 +1,10 @@
 package me.travis.gol.gui;
 
+import me.travis.gol.GameOfLife;
+import me.travis.gol.object.Blank;
+import me.travis.gol.object.person.Person;
+import me.travis.gol.util.Util;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -17,6 +22,7 @@ public class Square extends JPanel implements MouseListener {
         this.setOpaque(false);
         this.image = image;
         this.setPos(x, y);
+        this.addMouseListener(this);
     }
 
     public BufferedImage getImage() {
@@ -50,7 +56,17 @@ public class Square extends JPanel implements MouseListener {
      */
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (GameOfLife.ENGINE.isRunning()) return;
+        if (GameOfLife.PLANE.getPlane()[Util.coordsToPlane(this.getY())][Util.coordsToPlane(this.getX())] instanceof Blank) {
+            Person p = new Person(1);
+            GameOfLife.PLANE.getPlane()[Util.coordsToPlane(this.getY())][Util.coordsToPlane(this.getX())] = p;
+            this.updateImage(p.getImage());
+        } else {
+            Blank b = new Blank();
+            GameOfLife.PLANE.getPlane()[Util.coordsToPlane(this.getY())][Util.coordsToPlane(this.getX())] = b;
+            this.updateImage(b.getImage());
+        }
+        this.repaint();
     }
 
     /**

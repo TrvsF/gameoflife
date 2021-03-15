@@ -28,6 +28,12 @@ public class Plane {
         initGosperGun();
     }
 
+    public Plane(Obj[][] plane) {
+        this.x = plane.length;
+        this.y = plane[0].length;
+        this.plane = plane;
+    }
+
     public int getX() {
         return this.x;
     }

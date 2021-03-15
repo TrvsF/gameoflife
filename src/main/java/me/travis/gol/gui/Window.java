@@ -2,10 +2,19 @@ package me.travis.gol.gui;
 
 import me.travis.gol.GameOfLife;
 import me.travis.gol.object.Obj;
+import me.travis.gol.util.Util;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +35,8 @@ public class Window extends JFrame {
         this.drawPlane();
         this.addToggleButton();
         this.addTpsSlider();
+        this.addSaveButton();
+        this.addLoadButton();
     }
 
     /**
@@ -47,11 +58,72 @@ public class Window extends JFrame {
      */
     private void addToggleButton() {
         JButton button = new JButton();
-        button.setSize(50, 50);
-        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 80, 100, 50);
+        button.setSize(100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 140, 100, 50);
         button.setText("toggle");
         button.setVisible(true);
         this.add(button);
+        // button listener
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameOfLife.ENGINE.toggle();
+            }
+        });
+    }
+
+    /**
+     * save the current plane
+     */
+    private void addSaveButton() {
+        JButton button = new JButton();
+        button.setSize(100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 20, 100, 50);
+        button.setText("save");
+        button.setVisible(true);
+        this.add(button);
+        // button listener
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Util.savePlaneToFile(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void addLoadButton() {
+        JButton button = new JButton();
+        button.setSize(100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 80, 100, 50);
+        button.setText("load");
+        button.setVisible(true);
+        this.add(button);
+        // button listener
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    handleLoad();
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void handleLoad() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            Util.loadFile(selectedFile.getAbsolutePath());
+        }
     }
 
     private void addTpsSlider() {
@@ -62,6 +134,17 @@ public class Window extends JFrame {
         slider.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 300, 100, 20);
         slider.setVisible(true);
         this.add(slider);
+        // slider value
+        JLabel value = new JLabel("Move slider to see value", JLabel.CENTER);
+        value.setBounds(slider.getX(), slider.getY() + 30, 100, 20);
+        // slider listener
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                value.setText("value : " + slider.getValue());
+            }
+        });
+        this.add(value);
     }
 
     /**
