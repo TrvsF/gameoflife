@@ -5,11 +5,7 @@ import me.travis.gol.object.Obj;
 import me.travis.gol.util.Util;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -27,6 +23,8 @@ public class Window extends JFrame {
     private final ImageIcon ICON = new ImageIcon("src/main/resources/logo.png");
 
     private final List<Square> squares = new ArrayList<>();
+
+    private double sliderValue;
 
     private static final int SQUARE_START_X = 40;
     private static final int SQUARE_START_Y = 40;
@@ -70,12 +68,7 @@ public class Window extends JFrame {
         button.setVisible(true);
         this.add(button);
         // button listener
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GameOfLife.ENGINE.toggle();
-            }
-        });
+        button.addActionListener(e -> GameOfLife.ENGINE.toggle());
     }
 
     /**
@@ -89,14 +82,11 @@ public class Window extends JFrame {
         button.setVisible(true);
         this.add(button);
         // button listener
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Util.savePlaneToFile(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+        button.addActionListener(e -> {
+            try {
+                Util.savePlaneToFile(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(new Date()));
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         });
     }
@@ -109,14 +99,11 @@ public class Window extends JFrame {
         button.setVisible(true);
         this.add(button);
         // button listener
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    handleLoad();
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
+        button.addActionListener(e -> {
+            try {
+                handleLoad();
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         });
     }
@@ -124,19 +111,16 @@ public class Window extends JFrame {
     private void addRandomiseButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
-        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 220, 100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 200, 100, 50);
         button.setText("randomise");
         button.setVisible(true);
         this.add(button);
         // button listener
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                GameOfLife.PLANE.generateRandomPlane();
-                redrawPlane();
-                GameOfLife.ENGINE.resetTicks();
-                gameInfo.resetInfo();
-            }
+        button.addActionListener(e -> {
+            GameOfLife.PLANE.generateRandomPlane();
+            redrawPlane();
+            GameOfLife.ENGINE.resetTicks();
+            gameInfo.resetInfo();
         });
     }
 
@@ -155,28 +139,32 @@ public class Window extends JFrame {
      * slider to control the game speed
      */
     private void addTpsSlider() {
-        JSlider slider = new JSlider();
+        JSlider slider = new JSlider(0, 10);
+        slider.setValue(4);
         slider.setMajorTickSpacing(1);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
         slider.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 300, 100, 20);
         slider.setVisible(true);
+        this.sliderValue = slider.getValue() / (double) 2;
         this.add(slider);
         // slider value
-        JLabel value = new JLabel("Move slider to see value", JLabel.CENTER);
+        JLabel value = new JLabel("value : " + slider.getValue() / 2, JLabel.CENTER);
         value.setBounds(slider.getX(), slider.getY() + 30, 100, 20);
         // slider listener
-        slider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                value.setText("value : " + slider.getValue());
-            }
+        slider.addChangeListener(e -> {
+            value.setText("value : " + slider.getValue() / 2);
+            GameOfLife.ENGINE.setTps(this.getSliderValue());
         });
         this.add(value);
     }
 
     public void updateGameInfo() {
         this.gameInfo.updateInfo();
+    }
+
+    public double getSliderValue() {
+        return this.sliderValue / 2;
     }
 
     /**

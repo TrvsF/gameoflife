@@ -50,7 +50,7 @@ public class Engine extends TimerTask {
         return this.tps;
     }
 
-    public void setTps(int tps) {
+    public void setTps(double tps) {
         this.tps = tps;
     }
 
