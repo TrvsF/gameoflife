@@ -12,7 +12,7 @@ public class Window extends JFrame {
 
     private final ImageIcon ICON = new ImageIcon("src/main/resources/logo.png");
 
-    private final List<Square> SQUARES = new ArrayList<>();
+    private final List<Square> squares = new ArrayList<>();
 
     private static final int SQUARE_START_X = 40;
     private static final int SQUARE_START_Y = 40;
@@ -42,7 +42,7 @@ public class Window extends JFrame {
             for (Obj obj : objs) {
                 Square square = new Square(x, y, obj.getImage());
                 this.add(square);
-                this.SQUARES.add(square);
+                this.squares.add(square);
                 x += SQUARE_PADDING;
             }
             y += SQUARE_PADDING;
@@ -51,20 +51,23 @@ public class Window extends JFrame {
     }
 
     private void redrawPlane() {
-        if (this.SQUARES.isEmpty()) return;
+        if (this.squares.isEmpty()) return;
 
-        for (Square s : this.SQUARES) {
-            this.remove(s);
+        int c = 0;
+        for (Obj[] objs : GameOfLife.getPlane().getPlane()) {
+            for (Obj obj : objs) {
+                this.squares.get(c).updateImage(obj.getImage());
+                this.squares.get(c).repaint();
+                c++;
+            }
         }
-
-        this.SQUARES.clear();
-
-        this.drawPlane();
     }
 
     public void refresh(boolean hard) {
-        SwingUtilities.updateComponentTreeUI(this);
-        if (hard) this.redrawPlane();
+        this.redrawPlane();
+        if (hard) {
+            SwingUtilities.updateComponentTreeUI(this);
+        }
     }
 
 }

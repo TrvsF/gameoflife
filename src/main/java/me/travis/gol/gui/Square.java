@@ -8,12 +8,16 @@ import java.awt.image.BufferedImage;
 
 public class Square extends JPanel implements MouseListener {
 
-    private final BufferedImage image;
+    private BufferedImage image;
 
     public Square(int x, int y, BufferedImage image) {
         this.setOpaque(false);
         this.image = image;
         this.setPos(x, y);
+    }
+
+    public void updateImage(BufferedImage image) {
+        this.image = image;
     }
 
     private void setPos(int x, int y) {

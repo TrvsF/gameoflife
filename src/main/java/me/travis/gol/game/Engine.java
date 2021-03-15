@@ -50,7 +50,6 @@ public class Engine extends TimerTask {
 
         PlaneUtil.printDebugPlane(GameOfLife.getPlane());
         try {
-            GameOfLife.WINDOW.refresh(true);
             GameOfLife.WINDOW.refresh(false);
         } catch (Exception ignored) {}
 
