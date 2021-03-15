@@ -24,13 +24,15 @@ public class Window extends JFrame {
     public Window() {
         this.initWindow();
         this.drawPlane();
+        this.addToggleButton();
+        this.addTpsSlider();
     }
 
     /**
      * inits window size and other attributes
      */
     private void initWindow() {
-        this.setSize(GameOfLife.PLANE.getY() * 40 + 80, GameOfLife.PLANE.getX() * 40 + 80);
+        this.setSize(GameOfLife.PLANE.getY() * 40 + 240, GameOfLife.PLANE.getX() * 40 + 80);
         this.setResizable(false);
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +40,28 @@ public class Window extends JFrame {
         this.getContentPane().setBackground(new Color(0x4F4F4F));
         this.setIconImage(ICON.getImage());
         this.setVisible(true);
+    }
+
+    /**
+     * display game engine toggle button
+     */
+    private void addToggleButton() {
+        JButton button = new JButton();
+        button.setSize(50, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 80, 100, 50);
+        button.setText("toggle");
+        button.setVisible(true);
+        this.add(button);
+    }
+
+    private void addTpsSlider() {
+        JSlider slider = new JSlider();
+        slider.setMajorTickSpacing(1);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 300, 100, 20);
+        slider.setVisible(true);
+        this.add(slider);
     }
 
     /**
