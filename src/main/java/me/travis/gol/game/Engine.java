@@ -1,6 +1,7 @@
 package me.travis.gol.game;
 
 import me.travis.gol.GameOfLife;
+import me.travis.gol.object.Obj;
 import me.travis.gol.util.PlaneUtil;
 
 import java.util.Timer;
@@ -41,12 +42,13 @@ public class Engine extends TimerTask {
     @Override
     public void run() {
         // System.out.print("hello there");
-
+        Obj[][] newBoard = PlaneUtil.clonePlane(GameOfLife.getPlane().getPlane());
         for (int i = 0; i < GameOfLife.getPlane().getPlane().length; i++) {
             for (int j = 0; j < GameOfLife.getPlane().getPlane()[i].length; j++) {
-                PlaneUtil.checkObj(i, j);
+                PlaneUtil.checkObj(i, j, newBoard);
             }
         }
+        GameOfLife.getPlane().setPlane(newBoard);
 
         PlaneUtil.printDebugPlane(GameOfLife.getPlane());
         try {

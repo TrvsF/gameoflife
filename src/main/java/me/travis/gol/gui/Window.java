@@ -24,7 +24,7 @@ public class Window extends JFrame {
     }
 
     private void initWindow() {
-        this.setSize(GameOfLife.getPlane().getX() * 40 + 80, GameOfLife.getPlane().getY() * 40 + 80);
+        this.setSize(GameOfLife.getPlane().getY() * 40 + 80, GameOfLife.getPlane().getX() * 40 + 80);
         this.setResizable(false);
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

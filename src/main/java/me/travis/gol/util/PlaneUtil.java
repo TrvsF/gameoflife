@@ -40,15 +40,24 @@ public class PlaneUtil {
         }
     }
 
-    public static void checkObj(int x, int y) {
+    public static Obj[][] clonePlane(Obj[][] plane) {
+        Obj[][] clone = new Obj[plane.length][];
+        for (int i = 0; i < plane.length; i++) {
+            clone[i] = new Obj[plane[i].length];
+            System.arraycopy(plane[i], 0, clone[i], 0, clone[i].length);
+        }
+        return clone;
+    }
+
+    public static void checkObj(int x, int y, Obj[][] newBoard) {
         if (GameOfLife.ENGINE.getMode() == 1) {
             checkObjNew(x, y);
         } else {
-            checkObjClassic(x, y);
+            checkObjClassic(x, y, newBoard);
         }
     }
 
-    private static void checkObjClassic(int x, int y) {
+    private static void checkObjClassic(int x, int y, Obj[][] newBoard) {
         Obj o = GameOfLife.getPlane().getPlane()[x][y];
 
         if (o instanceof Blank) {
@@ -59,7 +68,7 @@ public class PlaneUtil {
                 }
             }
             if (n == 3) { // new person
-                GameOfLife.getPlane().getPlane()[x][y] = new Person(Util.getRandomInt(0, 1));
+                newBoard[x][y] = new Person(Util.getRandomInt(0, 1));
             }
         }
 
@@ -70,11 +79,16 @@ public class PlaneUtil {
                     n++;
                 }
             }
-            if (n < 2 || n > 3) { // dies of under or over pop
-                GameOfLife.getPlane().getPlane()[x][y] = new Blank();
+//            if (n < 2 || n > 3) { // dies of under or over pop
+//                newBoard[x][y] = new Blank();
+//            }
+            if (n < 2) {
+                newBoard[x][y] = new Blank("U");
+            }
+            if (n > 3) {
+                newBoard[x][y] = new Blank("O");
             }
         }
-
     }
 
     private static void checkObjNew(int x, int y) {

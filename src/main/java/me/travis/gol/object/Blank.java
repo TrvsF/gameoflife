@@ -7,6 +7,16 @@ import java.io.IOException;
 
 public class Blank extends Obj {
 
+    private final String id;
+
+    public Blank() {
+        this.id = "x";
+    }
+
+    public Blank(String id) {
+        this.id = id;
+    }
+
     @Override
     public void tick() {}
 
@@ -32,7 +42,7 @@ public class Blank extends Obj {
 
     @Override
     public String getId() {
-        return "x";
+        return id;
     }
 
     @Override
