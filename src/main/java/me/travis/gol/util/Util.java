@@ -50,10 +50,11 @@ public class Util {
         return (1/tps) * 1000;
     }
 
-    public static boolean isBlank(BufferedImage image) throws IOException {
-        return image == ImageIO.read(new File("src/main/resources/blank.png"));
-    }
-
+    /**
+     * converts gui coords to place on plane
+     * @param n number to convert
+     * @return the converted number
+     */
     public static int coordsToPlane(int n) {
         return (n - 40) / 40;
     }
@@ -62,8 +63,14 @@ public class Util {
         return (n * 40) + 40;
     }
 
+    /**
+     * saves the current plane to a file
+     * @param name Name of the file
+     * @throws IOException E
+     */
     public static void savePlaneToFile(String name) throws IOException {
         System.out.println("attempting to save file : " + name);
+        // build string to be saved
         StringBuilder sb = new StringBuilder();
         for (Obj[] objs : GameOfLife.PLANE.getPlane()) {
             for (int j = 0; j < objs.length; j++) {
@@ -74,29 +81,37 @@ public class Util {
             }
             sb.append("\n");
         }
+        // write string via a buffered writer
         BufferedWriter writer = new BufferedWriter(new FileWriter(new File(System.getProperty("user.home") + "/Desktop/" + name + ".txt")));
         writer.write(sb.toString());
         writer.close();
+
         System.out.println("DONE");
     }
 
+    /**
+     * load file from given path
+     * @param path Path of file to load
+     * @throws IOException E
+     */
     public static void loadFile(String path) throws IOException {
+        // Buffered Reader to read file
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
+        // add each line to a list of lines
         List<String[]> lines = new ArrayList<>();
         while ((line = br.readLine()) != null) {
             lines.add(line.split("\\s+"));
         }
-
+        // create new plane and load file to it
         Obj[][] newPlane = new Obj[lines.size()][];
-
         for (int i = 0; i < lines.size(); i++) {
             newPlane[i] = new Obj[lines.get(0).length];
             for (int j = 0; j < newPlane[i].length; j++) {
                 newPlane[i][j] = (lines.get(i)[j].equals("P") ? new Person(1) : new Blank());
             }
         }
-
+        // refresh plane
         GameOfLife.refreshPlane(newPlane);
     }
 

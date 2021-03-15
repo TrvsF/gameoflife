@@ -46,6 +46,7 @@ public class Plane {
      * generates a random plane, giving around 1 in 5 squares a person
      */
     public void generateRandomPlane() {
+        this.initPlane(this.getX(), this.getY());
         for (int i = 0; i < this.plane.length; i++) {
             for (int j = 0; j < this.plane[i].length; j++) {
                 if (Util.getRandomInt(0, 5) == 0) {

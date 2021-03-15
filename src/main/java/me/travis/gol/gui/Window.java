@@ -22,6 +22,8 @@ import java.util.List;
  */
 public class Window extends JFrame {
 
+    private final GameInfo gameInfo;
+
     private final ImageIcon ICON = new ImageIcon("src/main/resources/logo.png");
 
     private final List<Square> squares = new ArrayList<>();
@@ -37,6 +39,10 @@ public class Window extends JFrame {
         this.addTpsSlider();
         this.addSaveButton();
         this.addLoadButton();
+        this.addRandomiseButton();
+
+        gameInfo = new GameInfo();
+        this.add(gameInfo);
     }
 
     /**
@@ -115,6 +121,25 @@ public class Window extends JFrame {
         });
     }
 
+    private void addRandomiseButton() {
+        JButton button = new JButton();
+        button.setSize(100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 220, 100, 50);
+        button.setText("randomise");
+        button.setVisible(true);
+        this.add(button);
+        // button listener
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GameOfLife.PLANE.generateRandomPlane();
+                redrawPlane();
+                GameOfLife.ENGINE.resetTicks();
+                gameInfo.resetInfo();
+            }
+        });
+    }
+
     private void handleLoad() throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
@@ -126,6 +151,9 @@ public class Window extends JFrame {
         }
     }
 
+    /**
+     * slider to control the game speed
+     */
     private void addTpsSlider() {
         JSlider slider = new JSlider();
         slider.setMajorTickSpacing(1);
@@ -145,6 +173,10 @@ public class Window extends JFrame {
             }
         });
         this.add(value);
+    }
+
+    public void updateGameInfo() {
+        this.gameInfo.updateInfo();
     }
 
     /**
@@ -189,6 +221,7 @@ public class Window extends JFrame {
      */
     public void refresh(boolean hard) {
         this.redrawPlane();
+        this.updateGameInfo();
         if (hard) {
             SwingUtilities.updateComponentTreeUI(this);
         }

@@ -19,11 +19,13 @@ public class Engine extends TimerTask {
     // 0 = classic
     // 1 = new
     private final int mode;
+    private int ticks;
     private double tps;
 
     public Engine(int mode, double tps) {
         this.mode = mode;
         this.tps = tps;
+        this.ticks = 0;
         this.running = false;
         this.timer = new Timer();
     }
@@ -56,6 +58,14 @@ public class Engine extends TimerTask {
         return this.timer;
     }
 
+    public int getTicks() {
+        return this.ticks;
+    }
+
+    public void resetTicks() {
+        this.ticks = 0;
+    }
+
     /**
      * each tick this is ran to update the board
      */
@@ -78,6 +88,8 @@ public class Engine extends TimerTask {
             try {
                 GameOfLife.WINDOW.refresh(false);
             } catch (Exception ignored) {}
+
+            ticks++;
         }
 
     }
