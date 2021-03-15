@@ -6,6 +6,9 @@ import me.travis.gol.object.person.Person;
 import me.travis.gol.object.person.people.Builder;
 import me.travis.gol.util.Util;
 
+/**
+ * Plane class, holds all info on a given plane
+ */
 public class Plane {
 
     private Obj[][] plane;
@@ -33,6 +36,9 @@ public class Plane {
         return this.y;
     }
 
+    /**
+     * generates a random plane, giving around 1 in 5 squares a person
+     */
     public void generateRandomPlane() {
         for (int i = 0; i < this.plane.length; i++) {
             for (int j = 0; j < this.plane[i].length; j++) {
@@ -66,11 +72,6 @@ public class Plane {
         this.plane[6][2] = new Person(1);
         this.plane[5][1] = new Person(1);
         this.plane[5][2] = new Person(1);
-
-        this.plane[8][3] = new Person(1);
-        this.plane[8][4] = new Person(1);
-        this.plane[7][3] = new Person(1);
-        this.plane[7][4] = new Person(1);
 
         this.plane[4][35] = new Person(1);
         this.plane[4][36] = new Person(1);

@@ -1,15 +1,14 @@
 package me.travis.gol.util;
 
 /*
- * tuple class, holds 3 elements of any datatype
- * (like a list or array but easy to use and more efficient)
+ * pair class, holds 2 elements of any datatype
  */
 public class Pair<E1, E2> {
 
     private final E1 element1;
     private final E2 element2;
 
-    // creates a tuple
+    // creates a pair
     public static <e1, e2> Pair<e1, e2> create(e1 element1, e2 element2) {
         return new Pair<>(element1, element2);
     }

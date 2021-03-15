@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Blank object
+ */
 public class Blank extends Obj {
 
     private final String id;

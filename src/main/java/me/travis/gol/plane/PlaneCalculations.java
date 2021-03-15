@@ -1,15 +1,19 @@
-package me.travis.gol.util;
+package me.travis.gol.plane;
 
 import me.travis.gol.GameOfLife;
 import me.travis.gol.object.Blank;
 import me.travis.gol.object.Obj;
 import me.travis.gol.object.person.Person;
-import me.travis.gol.plane.Plane;
+import me.travis.gol.util.Pair;
+import me.travis.gol.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaneUtil {
+/**
+ * where all the calculations for the plane are done
+ */
+public class PlaneCalculations {
 
     /**
      * prints a given plane in debug mode
@@ -40,6 +44,11 @@ public class PlaneUtil {
         }
     }
 
+    /**
+     * clones a plane so that a plane may be checked without disturbing the current plane
+     * @param plane the plane to be cloned
+     * @return a cloned plane
+     */
     public static Obj[][] clonePlane(Obj[][] plane) {
         Obj[][] clone = new Obj[plane.length][];
         for (int i = 0; i < plane.length; i++) {
@@ -49,6 +58,12 @@ public class PlaneUtil {
         return clone;
     }
 
+    /**
+     * checks a given object based on its x and y coords
+     * @param x X of given object
+     * @param y Y of given object
+     * @param newBoard the board that should be updated if any calculations are made
+     */
     public static void checkObj(int x, int y, Obj[][] newBoard) {
         if (GameOfLife.ENGINE.getMode() == 1) {
             checkObjNew(x, y);
@@ -57,14 +72,23 @@ public class PlaneUtil {
         }
     }
 
+    /**
+     * checks the object for the classic game of life rules
+     * @param x X of the given object
+     * @param y Y of the given object
+     * @param newBoard the board that should be updated if any calculations are made
+     */
     private static void checkObjClassic(int x, int y, Obj[][] newBoard) {
-        Obj o = GameOfLife.getPlane().getPlane()[x][y];
+        // object to be checked
+        Obj o = GameOfLife.PLANE.getPlane()[x][y];
 
+        // if object is blank
         if (o instanceof Blank) {
-            int n = 0;
+            int n = 0; // check if it has 3 neighbours, if so populate that square
             for (Obj _o : getNearby(x, y, 1)) {
                 if (_o instanceof Person) {
                     n++;
+                    if (n > 3) break;
                 }
             }
             if (n == 3) { // new person
@@ -72,27 +96,26 @@ public class PlaneUtil {
             }
         }
 
+        // if object is a person
         if (o instanceof Person) {
-            int n = 0;
+            int n = 0; // check if is over/underpopulated, if so remove
             for (Obj _o : getNearby(x, y, 1)) {
                 if (_o instanceof Person) {
                     n++;
+                    if (n > 3) break; // speed
                 }
             }
-//            if (n < 2 || n > 3) { // dies of under or over pop
-//                newBoard[x][y] = new Blank();
-//            }
-            if (n < 2) {
+            if (n < 2) { // under pop
                 newBoard[x][y] = new Blank("U");
             }
-            if (n > 3) {
+            if (n > 3) { // over pop
                 newBoard[x][y] = new Blank("O");
             }
         }
     }
 
     private static void checkObjNew(int x, int y) {
-        Obj o = GameOfLife.getPlane().getPlane()[x][y];
+        Obj o = GameOfLife.PLANE.getPlane()[x][y];
 
         if (o instanceof Blank) return;
 
@@ -102,7 +125,7 @@ public class PlaneUtil {
         }
 
         if (o.isDead()) {
-            GameOfLife.getPlane().getPlane()[x][y] = new Blank();
+            GameOfLife.PLANE.getPlane()[x][y] = new Blank();
         }
     }
 
@@ -113,7 +136,7 @@ public class PlaneUtil {
         for (int i = -radius; i <= radius; i++) {
             for (int j = -radius; j <= radius; j++) {
                 if ((i == 0 && j == 0) || isOOB(x + i, y + j)) continue; // don't care if OOB or is own object
-                if (GameOfLife.getPlane().getPlane()[x + i][y + j] instanceof Blank) {
+                if (GameOfLife.PLANE.getPlane()[x + i][y + j] instanceof Blank) {
                     validMoves.add(Pair.create(x + i, y + j));
                 }
             }
@@ -123,25 +146,38 @@ public class PlaneUtil {
 
         // move the object and replace with a blank
         Pair<Integer, Integer> p = validMoves.get(Util.getRandomListIndex(validMoves));
-        GameOfLife.getPlane().getPlane()[p.getElement1()][p.getElement2()] = GameOfLife.getPlane().getPlane()[x][y];
-        GameOfLife.getPlane().getPlane()[x][y] = new Blank();
+        GameOfLife.PLANE.getPlane()[p.getElement1()][p.getElement2()] = GameOfLife.PLANE.getPlane()[x][y];
+        GameOfLife.PLANE.getPlane()[x][y] = new Blank();
     }
 
+    /**
+     * gets all objects surrounding a given coord in a given radius
+     * @param x X of object to check
+     * @param y Y of object to check
+     * @param radius radius of object to check
+     * @return List of all objects surrounding
+     */
     private static List<Obj> getNearby(int x, int y, int radius) {
         List<Obj> objs = new ArrayList<>();
 
         for (int i = -radius; i <= radius; i++) {
             for (int j = -radius; j <= radius; j++) {
                 if ((i == 0 && j == 0) || isOOB(x + i, y + j)) continue; // don't care if OOB or is own object
-                objs.add(GameOfLife.getPlane().getPlane()[x + i][y + j]);
+                objs.add(GameOfLife.PLANE.getPlane()[x + i][y + j]);
             }
         }
 
         return objs;
     }
 
+    /**
+     * checks if given coord is out of bounds
+     * @param x X coord
+     * @param y Y coord
+     * @return if the coord is out of bounds
+     */
     private static boolean isOOB(int x, int y) {
-        return x < 0 || y < 0 || x >= GameOfLife.getPlane().getX() || y >= GameOfLife.getPlane().getY();
+        return x < 0 || y < 0 || x >= GameOfLife.PLANE.getX() || y >= GameOfLife.PLANE.getY();
     }
 
 }

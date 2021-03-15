@@ -6,6 +6,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * class containing the square object to be shown on screen
+ */
 public class Square extends JPanel implements MouseListener {
 
     private BufferedImage image;
@@ -16,10 +19,19 @@ public class Square extends JPanel implements MouseListener {
         this.setPos(x, y);
     }
 
+    public BufferedImage getImage() {
+        return this.image;
+    }
+
     public void updateImage(BufferedImage image) {
         this.image = image;
     }
 
+    /**
+     * sets squares pos on screen
+     * @param x X
+     * @param y Y
+     */
     private void setPos(int x, int y) {
         this.setBounds(x, y, 20, 20);
     }
