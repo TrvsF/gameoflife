@@ -10,6 +10,7 @@ import java.io.IOException;
 public class Person extends Obj {
 
     private final int sex;
+    private final BufferedImage image;
     private int daysWithoutShelter;
     private int age;
 
@@ -17,6 +18,15 @@ public class Person extends Obj {
         this.sex = sex;
         this.daysWithoutShelter = 0;
         this.age = 0;
+        // do image
+        BufferedImage _image;
+        try {
+            _image = ImageIO.read(new File("src/main/resources/person.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            _image = null;
+        }
+        this.image = _image;
     }
 
     public boolean isMan() {
@@ -60,14 +70,7 @@ public class Person extends Obj {
 
     @Override
     public BufferedImage getImage() {
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File("src/main/resources/person.png"));
-        } catch (IOException exception) {
-            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
-            img = null;
-        }
-        return img;
+        return this.image;
     }
 
 }

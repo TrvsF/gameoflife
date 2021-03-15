@@ -11,13 +11,32 @@ import java.io.IOException;
 public class Blank extends Obj {
 
     private final String id;
+    private final BufferedImage image;
 
     public Blank() {
         this.id = "x";
+        // do image
+        BufferedImage _image;
+        try {
+            _image = ImageIO.read(new File("src/main/resources/blank.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            _image = null;
+        }
+        this.image = _image;
     }
 
     public Blank(String id) {
         this.id = id;
+        // do image
+        BufferedImage _image;
+        try {
+            _image = ImageIO.read(new File("src/main/resources/blank.png"));
+        } catch (IOException exception) {
+            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            _image = null;
+        }
+        this.image = _image;
     }
 
     @Override
@@ -50,13 +69,7 @@ public class Blank extends Obj {
 
     @Override
     public BufferedImage getImage() {
-        BufferedImage img;
-        try {
-            img = ImageIO.read(new File("src/main/resources/blank.png"));
-        } catch (IOException exception) {
-            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
-            img = null;
-        }
-        return img;
+        return this.image;
     }
+
 }

@@ -30,7 +30,7 @@ public class GameOfLife {
         System.out.println("done");
 
         System.out.println("STARTING GAME...");
-        ENGINE = new Engine(0, 1);
+        ENGINE = new Engine(0, 5);
         setEngineTps();
         System.out.println("Game running : "+ENGINE.isRunning());
         System.out.println("DONE");
