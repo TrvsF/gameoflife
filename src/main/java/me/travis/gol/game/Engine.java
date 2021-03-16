@@ -20,11 +20,13 @@ public class Engine extends TimerTask {
     // 1 = new
     private final int mode;
     private int ticks;
-    private double tps;
+    private int currentTps;
+    private int tps;
 
-    public Engine(int mode, double tps) {
+    public Engine(int mode, int tps) {
         this.mode = mode;
         this.tps = tps;
+        this.currentTps = tps;
         this.ticks = 0;
         this.running = false;
         this.timer = new Timer();
@@ -50,7 +52,7 @@ public class Engine extends TimerTask {
         return this.tps;
     }
 
-    public void setTps(double tps) {
+    public void setTps(int tps) {
         this.tps = tps;
     }
 
@@ -66,12 +68,15 @@ public class Engine extends TimerTask {
         this.ticks = 0;
     }
 
+    public void setCurrentTps(int tps) {
+        this.currentTps = tps;
+    }
+
     /**
      * each tick this is ran to update the board
      */
     @Override
     public void run() {
-
         if (this.isRunning()) {
             // do next tick of game
             Obj[][] newBoard = PlaneCalculations.clonePlane(GameOfLife.PLANE.getPlane());
@@ -82,15 +87,18 @@ public class Engine extends TimerTask {
             }
             // update plane object
             GameOfLife.PLANE.setPlane(newBoard);
-            // print in console
-            PlaneCalculations.printDebugPlane(GameOfLife.PLANE);
             // display
-            try {
-                GameOfLife.WINDOW.refresh(false);
-            } catch (Exception ignored) {}
+            GameOfLife.WINDOW.refresh(false);
 
             ticks++;
-        }
 
+//            if (this.currentTps != this.tps) {
+//                this.timer.cancel();
+//                this.currentTps = this.tps;
+//                double ms = Util.tpsToMs(this.getTps()) > 0.0 ? Util.tpsToMs(this.getTps()) : 1;
+//                this.timer.schedule(this, 0, (int) ms);
+//            }
+
+        }
     }
 }

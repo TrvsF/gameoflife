@@ -23,7 +23,7 @@ public class Person extends Obj {
         try {
             _image = ImageIO.read(new File("src/main/resources/person.png"));
         } catch (IOException exception) {
-            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            System.out.print("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
             _image = null;
         }
         this.image = _image;

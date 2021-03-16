@@ -4,7 +4,6 @@ import me.travis.gol.game.Engine;
 import me.travis.gol.gui.Window;
 import me.travis.gol.object.Obj;
 import me.travis.gol.plane.Plane;
-import me.travis.gol.plane.PlaneCalculations;
 import me.travis.gol.util.Util;
 
 public class GameOfLife {
@@ -17,32 +16,30 @@ public class GameOfLife {
 
     public static void main(String[] args) {
 
-        System.out.println("GENERATING PLANE...");
-        PLANE = new Plane(22, 40);
+        System.out.print("GENERATING PLANE...");
+        PLANE = new Plane(40, 70);
         PLANE.generateRandomPlane();
-        PlaneCalculations.printDebugPlane(PLANE);
-        System.out.println("done");
+        System.out.print("...DONE\n");
 
-        System.out.println("STARTING GUI...");
+        System.out.print("STARTING GUI...");
         WINDOW = new Window();
         WINDOW.refresh(true);
         WINDOW.refresh(false);
-        System.out.println("done");
+        System.out.print("...DONE\n");
 
-        System.out.println("STARTING GAME...");
-        ENGINE = new Engine(0, WINDOW.getSliderValue());
+        System.out.print("STARTING GAME ENGINE...");
+        ENGINE = new Engine(0, 10);
         setEngineTps();
-        System.out.println("Game running : "+ENGINE.isRunning());
-        System.out.println("DONE");
+        System.out.print("...DONE\n");
+
+        System.out.print("All good\n");
 
     }
 
     public static void refreshPlane(Obj[][] plane) {
         PLANE = new Plane(plane);
-        PlaneCalculations.printDebugPlane(PLANE);
-        try {
-            GameOfLife.WINDOW.refresh(false);
-        } catch (Exception ignored) {}
+        WINDOW.refresh(false);
+        ENGINE.resetTicks();
     }
 
     public static void setEngineTps() {

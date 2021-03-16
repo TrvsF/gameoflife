@@ -57,7 +57,7 @@ public class Animal extends Obj {
         try {
             img = ImageIO.read(new File("src/main/resources/blank.png"));
         } catch (IOException exception) {
-            System.out.println("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
+            System.out.print("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
             img = null;
         }
         return img;

@@ -3,13 +3,15 @@ package me.travis.gol.gui;
 import me.travis.gol.GameOfLife;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class GameInfo extends JLabel {
 
     public GameInfo() {
         super("Ticks : " + (GameOfLife.ENGINE == null ? "0" : GameOfLife.ENGINE.getTicks()), JLabel.CENTER);
-        this.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 400, 100, 20);
-        this.setVisible(true);;
+        this.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 320, 100, 20);
+        this.setForeground(Color.WHITE);
+        this.setVisible(true);
     }
 
     public void updateInfo() {

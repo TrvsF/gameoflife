@@ -39,7 +39,7 @@ public class Square extends JPanel implements MouseListener {
      * @param y Y
      */
     private void setPos(int x, int y) {
-        this.setBounds(x, y, 20, 20);
+        this.setBounds(x, y, 10, 10);
     }
 
     @Override

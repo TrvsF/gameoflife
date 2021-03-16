@@ -24,11 +24,11 @@ public class Window extends JFrame {
 
     private final List<Square> squares = new ArrayList<>();
 
-    private double sliderValue;
+    private int sliderValue;
 
-    private static final int SQUARE_START_X = 40;
-    private static final int SQUARE_START_Y = 40;
-    private static final int SQUARE_PADDING = 40;
+    private static final int SQUARE_START_X = 20;
+    private static final int SQUARE_START_Y = 20;
+    private static final int SQUARE_PADDING = 15;
 
     public Window() {
         this.initWindow();
@@ -38,6 +38,7 @@ public class Window extends JFrame {
         this.addSaveButton();
         this.addLoadButton();
         this.addRandomiseButton();
+        this.addClearButton();
 
         gameInfo = new GameInfo();
         this.add(gameInfo);
@@ -47,7 +48,7 @@ public class Window extends JFrame {
      * inits window size and other attributes
      */
     private void initWindow() {
-        this.setSize(GameOfLife.PLANE.getY() * 40 + 240, GameOfLife.PLANE.getX() * 40 + 80);
+        this.setSize(GameOfLife.PLANE.getY() * 15 + 240, GameOfLife.PLANE.getX() * 15 + 65);
         this.setResizable(false);
         this.setLayout(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,8 +64,9 @@ public class Window extends JFrame {
     private void addToggleButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
-        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 140, 100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 140, 100, 50);
         button.setText("toggle");
+        button.setBackground(Color.WHITE);
         button.setVisible(true);
         this.add(button);
         // button listener
@@ -77,8 +79,9 @@ public class Window extends JFrame {
     private void addSaveButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
-        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 20, 100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 20, 100, 50);
         button.setText("save");
+        button.setBackground(Color.WHITE);
         button.setVisible(true);
         this.add(button);
         // button listener
@@ -94,12 +97,14 @@ public class Window extends JFrame {
     private void addLoadButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
-        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 80, 100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 80, 100, 50);
         button.setText("load");
+        button.setBackground(Color.WHITE);
         button.setVisible(true);
         this.add(button);
         // button listener
         button.addActionListener(e -> {
+            if (GameOfLife.ENGINE.isRunning()) return;
             try {
                 handleLoad();
             } catch (IOException exception) {
@@ -111,16 +116,34 @@ public class Window extends JFrame {
     private void addRandomiseButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
-        button.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 200, 100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 200, 100, 50);
         button.setText("randomise");
+        button.setBackground(Color.WHITE);
         button.setVisible(true);
         this.add(button);
         // button listener
         button.addActionListener(e -> {
+            if (GameOfLife.ENGINE.isRunning()) return;
             GameOfLife.PLANE.generateRandomPlane();
             redrawPlane();
             GameOfLife.ENGINE.resetTicks();
             gameInfo.resetInfo();
+        });
+    }
+
+    private void addClearButton() {
+        JButton button = new JButton();
+        button.setSize(100, 50);
+        button.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 260, 100, 50);
+        button.setText("clear");
+        button.setBackground(Color.WHITE);
+        button.setVisible(true);
+        this.add(button);
+        // button listener
+        button.addActionListener(e -> {
+            if (GameOfLife.ENGINE.isRunning()) return;
+            GameOfLife.PLANE.initPlane();
+            redrawPlane();
         });
     }
 
@@ -130,7 +153,7 @@ public class Window extends JFrame {
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            System.out.print("Loading from : " + selectedFile.getAbsolutePath());
             Util.loadFile(selectedFile.getAbsolutePath());
         }
     }
@@ -144,16 +167,16 @@ public class Window extends JFrame {
         slider.setMajorTickSpacing(1);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        slider.setBounds(GameOfLife.PLANE.getY() * 40 + 80, 300, 100, 20);
+        slider.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 350, 100, 50);
         slider.setVisible(true);
-        this.sliderValue = slider.getValue() / (double) 2;
+        this.sliderValue = slider.getValue();
         this.add(slider);
         // slider value
-        JLabel value = new JLabel("value : " + slider.getValue() / 2, JLabel.CENTER);
-        value.setBounds(slider.getX(), slider.getY() + 30, 100, 20);
+        JLabel value = new JLabel("value : " + slider.getValue(), JLabel.CENTER);
+        value.setBounds(slider.getX(), slider.getY() + 60, 100, 20);
         // slider listener
         slider.addChangeListener(e -> {
-            value.setText("value : " + slider.getValue() / 2);
+            value.setText("value : " + slider.getValue());
             GameOfLife.ENGINE.setTps(this.getSliderValue());
         });
         this.add(value);
@@ -163,8 +186,8 @@ public class Window extends JFrame {
         this.gameInfo.updateInfo();
     }
 
-    public double getSliderValue() {
-        return this.sliderValue / 2;
+    public int getSliderValue() {
+        return this.sliderValue;
     }
 
     /**

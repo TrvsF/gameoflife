@@ -18,13 +18,13 @@ public class Plane {
     public Plane(int x, int y) {
         this.x = x;
         this.y = y;
-        this.initPlane(x, y);
+        this.initPlane();
     }
 
     public Plane(int preset) {
         this.x = 11;
         this.y = 38;
-        this.initPlane(x, y);
+        this.initPlane();
         initGosperGun();
     }
 
@@ -46,7 +46,7 @@ public class Plane {
      * generates a random plane, giving around 1 in 5 squares a person
      */
     public void generateRandomPlane() {
-        this.initPlane(this.getX(), this.getY());
+        this.initPlane();
         for (int i = 0; i < this.plane.length; i++) {
             for (int j = 0; j < this.plane[i].length; j++) {
                 if (Util.getRandomInt(0, 5) == 0) {
@@ -64,7 +64,7 @@ public class Plane {
         this.plane = plane;
     }
 
-    private void initPlane(int x, int y) {
+    public void initPlane() {
         this.plane = new Obj[x][];
         for (int i = 0; i < x; i++) {
             this.plane[i] = new Obj[y];

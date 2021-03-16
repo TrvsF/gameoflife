@@ -4,11 +4,7 @@ import me.travis.gol.GameOfLife;
 import me.travis.gol.object.Blank;
 import me.travis.gol.object.Obj;
 import me.travis.gol.object.person.Person;
-import me.travis.gol.plane.Plane;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,11 +52,11 @@ public class Util {
      * @return the converted number
      */
     public static int coordsToPlane(int n) {
-        return (n - 40) / 40;
+        return (n - 20) / 15;
     }
 
     public static int planeToCoords(int n) {
-        return (n * 40) + 40;
+        return (n * 20) + 15;
     }
 
     /**
@@ -69,7 +65,7 @@ public class Util {
      * @throws IOException E
      */
     public static void savePlaneToFile(String name) throws IOException {
-        System.out.println("attempting to save file : " + name);
+        System.out.print("attempting to save file : " + name);
         // build string to be saved
         StringBuilder sb = new StringBuilder();
         for (Obj[] objs : GameOfLife.PLANE.getPlane()) {
@@ -86,7 +82,7 @@ public class Util {
         writer.write(sb.toString());
         writer.close();
 
-        System.out.println("DONE");
+        System.out.print("...DONE\n");
     }
 
     /**
@@ -113,6 +109,8 @@ public class Util {
         }
         // refresh plane
         GameOfLife.refreshPlane(newPlane);
+
+        System.out.print("...DONE\n");
     }
 
 }
