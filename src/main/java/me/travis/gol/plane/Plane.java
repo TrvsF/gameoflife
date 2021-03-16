@@ -2,7 +2,6 @@ package me.travis.gol.plane;
 
 import me.travis.gol.object.Blank;
 import me.travis.gol.object.Obj;
-import me.travis.gol.object.person.Person;
 import me.travis.gol.object.person.people.Builder;
 import me.travis.gol.util.Util;
 
@@ -12,6 +11,7 @@ import me.travis.gol.util.Util;
 public class Plane {
 
     private Obj[][] plane;
+
     private final int x;
     private final int y;
 
@@ -19,13 +19,6 @@ public class Plane {
         this.x = x;
         this.y = y;
         this.initPlane();
-    }
-
-    public Plane(int preset) {
-        this.x = 11;
-        this.y = 38;
-        this.initPlane();
-        initGosperGun();
     }
 
     public Plane(Obj[][] plane) {
@@ -73,23 +66,5 @@ public class Plane {
             }
         }
     }
-
-    private void initGosperGun() {
-        this.plane[6][1] = new Person(1);
-        this.plane[6][2] = new Person(1);
-        this.plane[5][1] = new Person(1);
-        this.plane[5][2] = new Person(1);
-
-        this.plane[4][35] = new Person(1);
-        this.plane[4][36] = new Person(1);
-        this.plane[3][35] = new Person(1);
-        this.plane[3][36] = new Person(1);
-
-        this.plane[5][10] = new Person(1);
-        this.plane[6][10] = new Person(1);
-        this.plane[7][10] = new Person(1);
-    }
-
-
 
 }

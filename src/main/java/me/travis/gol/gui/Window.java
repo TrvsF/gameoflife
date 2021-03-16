@@ -22,6 +22,12 @@ public class Window extends JFrame {
 
     private final ImageIcon ICON = new ImageIcon("src/main/resources/logo.png");
 
+    // combo box init
+    private final Integer[] dropDownItems = new Integer[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    private final JComboBox<Integer> underCombo = new JComboBox<>(dropDownItems);
+    private final JComboBox<Integer> overCombo = new JComboBox<>(dropDownItems);
+    private final JComboBox<Integer> bornCombo = new JComboBox<>(dropDownItems);
+
     private final List<Square> squares = new ArrayList<>();
 
     private int sliderValue;
@@ -42,6 +48,37 @@ public class Window extends JFrame {
 
         gameInfo = new GameInfo();
         this.add(gameInfo);
+
+        this.initComboBoxes();
+        this.add(underCombo);
+        this.add(overCombo);
+        this.add(bornCombo);
+    }
+
+    /**
+     * inits the combo boxes to change the game rules
+     */
+    private void initComboBoxes() {
+        underCombo.setSelectedItem(2);
+        underCombo.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 460, 100, 30);
+        underCombo.updateUI();
+        JLabel value = new JLabel("Under Pop Value", JLabel.CENTER);
+        value.setBounds(underCombo.getX(), underCombo.getY() - 20, 100, 20);
+        this.add(value);
+
+        overCombo.setSelectedItem(3);
+        overCombo.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 520, 100, 30);
+        overCombo.updateUI();
+        JLabel value2 = new JLabel("Over Pop Value", JLabel.CENTER);
+        value2.setBounds(underCombo.getX(), overCombo.getY() - 20, 100, 20);
+        this.add(value2);
+
+        bornCombo.setSelectedItem(3);
+        bornCombo.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 580, 100, 30);
+        bornCombo.updateUI();
+        JLabel value3 = new JLabel("Born Pop Value", JLabel.CENTER);
+        value3.setBounds(underCombo.getX(), bornCombo.getY() - 20, 100, 20);
+        this.add(value3);
     }
 
     /**
@@ -70,7 +107,10 @@ public class Window extends JFrame {
         button.setVisible(true);
         this.add(button);
         // button listener
-        button.addActionListener(e -> GameOfLife.ENGINE.toggle());
+        button.addActionListener(e -> {
+            GameOfLife.ENGINE.toggle();
+            gameInfo.refreshInfo();
+        });
     }
 
     /**
@@ -91,9 +131,13 @@ public class Window extends JFrame {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+            gameInfo.refreshInfo();
         });
     }
 
+    /**
+     * load a saved plane
+     */
     private void addLoadButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
@@ -110,9 +154,13 @@ public class Window extends JFrame {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+            gameInfo.refreshInfo();
         });
     }
 
+    /**
+     * randomise the plane
+     */
     private void addRandomiseButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
@@ -127,10 +175,13 @@ public class Window extends JFrame {
             GameOfLife.PLANE.generateRandomPlane();
             redrawPlane();
             GameOfLife.ENGINE.resetTicks();
-            gameInfo.resetInfo();
+            gameInfo.refreshInfo();
         });
     }
 
+    /**
+     * clear the plane
+     */
     private void addClearButton() {
         JButton button = new JButton();
         button.setSize(100, 50);
@@ -147,6 +198,10 @@ public class Window extends JFrame {
         });
     }
 
+    /**
+     * handles the load function
+     * @throws IOException E
+     */
     private void handleLoad() throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home") + "/Desktop"));
@@ -167,17 +222,27 @@ public class Window extends JFrame {
         slider.setMajorTickSpacing(1);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
-        slider.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 350, 100, 50);
+        slider.setBounds(GameOfLife.PLANE.getY() * 15 + 80, 370, 100, 50);
         slider.setVisible(true);
         this.sliderValue = slider.getValue();
         this.add(slider);
         // slider value
         JLabel value = new JLabel("value : " + slider.getValue(), JLabel.CENTER);
-        value.setBounds(slider.getX(), slider.getY() + 60, 100, 20);
+        value.setBounds(slider.getX(), slider.getY() + 50, 100, 20);
         // slider listener
         slider.addChangeListener(e -> {
             value.setText("value : " + slider.getValue());
             GameOfLife.ENGINE.setTps(this.getSliderValue());
+            if (GameOfLife.ENGINE.isRunning()) {
+                GameOfLife.ENGINE.toggle(); // turn off engine
+                GameOfLife.ENGINE.getTimer().cancel();
+                GameOfLife.ENGINE.getTimer().purge();
+                try {
+                    GameOfLife.setEngineTps();
+                } catch (Exception err) {
+                    System.out.print("error setting timer : " + err);
+                }
+            }
         });
         this.add(value);
     }
@@ -188,6 +253,18 @@ public class Window extends JFrame {
 
     public int getSliderValue() {
         return this.sliderValue;
+    }
+
+    public int getUnderPop() {
+        return (this.underCombo.getSelectedItem() == null ? 0 : (int) this.underCombo.getSelectedItem());
+    }
+
+    public int getOverPop() {
+        return (this.overCombo.getSelectedItem() == null ? 0 : (int) this.overCombo.getSelectedItem());
+    }
+
+    public int getBornPop() {
+        return (this.bornCombo.getSelectedItem() == null ? 0 : (int) this.bornCombo.getSelectedItem());
     }
 
     /**

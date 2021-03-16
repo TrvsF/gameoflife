@@ -88,10 +88,10 @@ public class PlaneCalculations {
             for (Obj _o : getNearby(x, y, 1)) {
                 if (_o instanceof Person) {
                     n++;
-                    if (n > 3) break;
+                    if (n > GameOfLife.WINDOW.getBornPop()) break;
                 }
             }
-            if (n == 3) { // new person
+            if (n == GameOfLife.WINDOW.getBornPop()) { // new person
                 newBoard[x][y] = new Person(Util.getRandomInt(0, 1));
             }
         }
@@ -102,10 +102,10 @@ public class PlaneCalculations {
             for (Obj _o : getNearby(x, y, 1)) {
                 if (_o instanceof Person) {
                     n++;
-                    if (n > 3) break; // speed
+                    if (n > GameOfLife.WINDOW.getOverPop()) break; // speed
                 }
             }
-            if (n < 2 || n > 3) {
+            if (n < GameOfLife.WINDOW.getUnderPop() || n > GameOfLife.WINDOW.getOverPop()) {
                 newBoard[x][y] = new Blank();
             }
         }
