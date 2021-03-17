@@ -99,6 +99,7 @@ public class Util {
         while ((line = br.readLine()) != null) {
             lines.add(line.split("\\s+"));
         }
+        br.close();
         // create new plane and load file to it
         Obj[][] newPlane = new Obj[lines.size()][];
         for (int i = 0; i < lines.size(); i++) {

@@ -43,7 +43,7 @@ public class GameOfLife {
     }
 
     public static void setEngineTps() {
-        double ms = Util.tpsToMs(ENGINE.getTps()) > 0.0 ?  Util.tpsToMs(ENGINE.getTps()) : 1;
+        double ms = Util.tpsToMs(ENGINE.getTps()) > 0.0 ?  Util.tpsToMs(ENGINE.getTps()) : 1; // dont want to divide by 0
         ENGINE.getTimer().purge();
         ENGINE.getTimer().schedule(ENGINE, 0, (int) ms);
     }
