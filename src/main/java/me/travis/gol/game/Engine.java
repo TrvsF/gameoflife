@@ -20,13 +20,11 @@ public class Engine extends TimerTask {
     // 1 = new
     private final int mode;
     private int ticks;
-    private int currentTps;
     private int tps;
 
     public Engine(int mode, int tps) {
         this.mode = mode;
         this.tps = tps;
-        this.currentTps = tps;
         this.ticks = 0;
         this.running = false;
         this.timer = new Timer();
@@ -34,10 +32,6 @@ public class Engine extends TimerTask {
 
     public void toggle() {
         this.running = !this.running;
-    }
-
-    public void start() {
-        this.running = true;
     }
 
     public boolean isRunning() {
@@ -68,10 +62,6 @@ public class Engine extends TimerTask {
         this.ticks = 0;
     }
 
-    public void setCurrentTps(int tps) {
-        this.currentTps = tps;
-    }
-
     /**
      * each tick this is ran to update the board
      */
@@ -89,16 +79,8 @@ public class Engine extends TimerTask {
             GameOfLife.PLANE.setPlane(newBoard);
             // display
             GameOfLife.WINDOW.refresh(false);
-
+            // increase tick number
             ticks++;
-
-//            if (this.currentTps != this.tps) {
-//                this.timer.cancel();
-//                this.currentTps = this.tps;
-//                double ms = Util.tpsToMs(this.getTps()) > 0.0 ? Util.tpsToMs(this.getTps()) : 1;
-//                this.timer.schedule(this, 0, (int) ms);
-//            }
-
         }
     }
 }

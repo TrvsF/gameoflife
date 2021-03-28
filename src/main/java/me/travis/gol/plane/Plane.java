@@ -57,6 +57,9 @@ public class Plane {
         this.plane = plane;
     }
 
+    /**
+     * assign each object of the plane to a blank
+     */
     public void initPlane() {
         this.plane = new Obj[x][];
         for (int i = 0; i < x; i++) {

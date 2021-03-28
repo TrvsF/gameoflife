@@ -97,7 +97,7 @@ public class Util {
         // add each line to a list of lines
         List<String[]> lines = new ArrayList<>();
         while ((line = br.readLine()) != null) {
-            lines.add(line.split("\\s+"));
+            lines.add(line.split("\\s+")); // split lines by spaces
         }
         br.close();
         // create new plane and load file to it

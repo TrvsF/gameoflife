@@ -40,7 +40,7 @@ public class Window extends JFrame {
         this.initWindow();
         this.drawPlane();
         this.addToggleButton();
-        this.addTpsSlider();
+        // this.addTpsSlider();
         this.addSaveButton();
         this.addLoadButton();
         this.addRandomiseButton();
@@ -109,7 +109,7 @@ public class Window extends JFrame {
         // button listener
         button.addActionListener(e -> {
             GameOfLife.ENGINE.toggle();
-            gameInfo.refreshInfo();
+            gameInfo.refreshInfo(true);
         });
     }
 
@@ -131,7 +131,7 @@ public class Window extends JFrame {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-            gameInfo.refreshInfo();
+            gameInfo.refreshInfo(true);
         });
     }
 
@@ -154,7 +154,7 @@ public class Window extends JFrame {
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
-            gameInfo.refreshInfo();
+            gameInfo.refreshInfo(false);
         });
     }
 
@@ -175,7 +175,7 @@ public class Window extends JFrame {
             GameOfLife.PLANE.generateRandomPlane();
             redrawPlane();
             GameOfLife.ENGINE.resetTicks();
-            gameInfo.refreshInfo();
+            gameInfo.refreshInfo(false);
         });
     }
 

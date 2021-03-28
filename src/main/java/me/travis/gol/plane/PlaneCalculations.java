@@ -15,6 +15,14 @@ import java.util.List;
  */
 public class PlaneCalculations {
 
+    public static int cellsThatHaveDied = 0;
+    public static int cellsThatHaveBorn = 0;
+
+    public static void resetStats() {
+        cellsThatHaveBorn = 0;
+        cellsThatHaveDied = 0;
+    }
+
     /**
      * prints a given plane in debug mode
      * @param plane Given plane
@@ -93,6 +101,7 @@ public class PlaneCalculations {
             }
             if (n == GameOfLife.WINDOW.getBornPop()) { // new person
                 newBoard[x][y] = new Person(Util.getRandomInt(0, 1));
+                cellsThatHaveBorn++;
             }
         }
 
@@ -107,6 +116,7 @@ public class PlaneCalculations {
             }
             if (n < GameOfLife.WINDOW.getUnderPop() || n > GameOfLife.WINDOW.getOverPop()) {
                 newBoard[x][y] = new Blank();
+                cellsThatHaveDied++;
             }
         }
     }
@@ -175,6 +185,22 @@ public class PlaneCalculations {
      */
     private static boolean isOOB(int x, int y) {
         return x < 0 || y < 0 || x >= GameOfLife.PLANE.getX() || y >= GameOfLife.PLANE.getY();
+    }
+
+    public static Pair<Integer, Integer> getAliveDeadCells() {
+        int aliveCells = 0;
+        int deadCells = 0;
+        for (Obj[] objs : GameOfLife.PLANE.getPlane()) {
+            for (Obj obj : objs) {
+                if (obj instanceof Blank) {
+                    deadCells++;
+                }
+                if (obj instanceof Person) {
+                    aliveCells++;
+                }
+            }
+        }
+        return Pair.create(aliveCells, deadCells);
     }
 
 }

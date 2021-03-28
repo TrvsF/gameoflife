@@ -28,7 +28,7 @@ public class GameOfLife {
         System.out.print("...DONE\n");
 
         System.out.print("STARTING GAME ENGINE...");
-        ENGINE = new Engine(0, 10);
+        ENGINE = new Engine(0, 5);
         setEngineTps();
         System.out.print("...DONE\n");
 
