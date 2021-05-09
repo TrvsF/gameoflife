@@ -32,7 +32,7 @@ public class GameOfLife {
         setEngineTps();
         System.out.print("...DONE\n");
 
-        System.out.print("All good\n");
+        System.out.print("Initialised Conway's Game Of Life\n");
 
     }
 

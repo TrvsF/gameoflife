@@ -1,0 +1,11 @@
+onTick() {
+ if (!isRunning) return;
+ newBoard = cloneCurrentBoard();
+ for (int i = 0; i < currentBoard.length; i++) {
+  for (int j = 0; j < currentBoard[i].length; j++ {
+   newBoard[i][j] = doObjectCalculations(currentBoard[i][j]);
+  }
+ }
+ currentBoard = newBoard;
+}
+  

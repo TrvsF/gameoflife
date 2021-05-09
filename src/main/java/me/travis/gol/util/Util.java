@@ -91,6 +91,15 @@ public class Util {
      * @throws IOException E
      */
     public static void loadFile(String path) throws IOException {
+        String extension = "";
+        int index = path.lastIndexOf('.');
+        if (index > 0) {
+            extension = path.substring(index + 1);
+        }
+        if (!extension.equalsIgnoreCase("txt")) {
+            System.out.print("...\nERROR : cannot load file that is not txt");
+            return;
+        }
         // Buffered Reader to read file
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
