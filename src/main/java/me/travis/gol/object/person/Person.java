@@ -3,11 +3,7 @@ package me.travis.gol.object.person;
 import me.travis.gol.GameOfLife;
 import me.travis.gol.object.Obj;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 
 public class Person extends Obj {
 

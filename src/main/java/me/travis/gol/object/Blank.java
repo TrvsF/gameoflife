@@ -2,11 +2,7 @@ package me.travis.gol.object;
 
 import me.travis.gol.GameOfLife;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
 
 /**
  * Blank object

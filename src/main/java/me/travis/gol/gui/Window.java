@@ -195,6 +195,8 @@ public class Window extends JFrame {
             if (GameOfLife.ENGINE.isRunning()) return;
             GameOfLife.PLANE.initPlane();
             redrawPlane();
+            GameOfLife.ENGINE.resetTicks();
+            gameInfo.refreshInfo(false);
         });
     }
 
