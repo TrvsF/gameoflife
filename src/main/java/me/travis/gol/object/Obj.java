@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
  * abstract object class, contains all needed functions for every object
  */
 public abstract class Obj {
-
     /**
      * what the object should do each game tick
      */

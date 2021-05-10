@@ -1,9 +1,12 @@
 package me.travis.gol.object;
 
+import me.travis.gol.GameOfLife;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Blank object
@@ -15,28 +18,7 @@ public class Blank extends Obj {
 
     public Blank() {
         this.id = "x";
-        // do image
-        BufferedImage _image;
-        try {
-            _image = ImageIO.read(new File("src/main/resources/blank.png"));
-        } catch (IOException exception) {
-            System.out.print("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
-            _image = null;
-        }
-        this.image = _image;
-    }
-
-    public Blank(String id) {
-        this.id = id;
-        // do image
-        BufferedImage _image;
-        try {
-            _image = ImageIO.read(new File("src/main/resources/blank.png"));
-        } catch (IOException exception) {
-            System.out.print("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
-            _image = null;
-        }
-        this.image = _image;
+        this.image = GameOfLife.blankImage;
     }
 
     @Override

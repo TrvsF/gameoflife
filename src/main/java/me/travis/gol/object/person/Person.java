@@ -1,11 +1,13 @@
 package me.travis.gol.object.person;
 
+import me.travis.gol.GameOfLife;
 import me.travis.gol.object.Obj;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Person extends Obj {
 
@@ -18,15 +20,7 @@ public class Person extends Obj {
         this.sex = sex;
         this.daysWithoutShelter = 0;
         this.age = 0;
-        // do image
-        BufferedImage _image;
-        try {
-            _image = ImageIO.read(new File("src/main/resources/person.png"));
-        } catch (IOException exception) {
-            System.out.print("ERROR LOADING PIECE - TRAVIS PLEASE : " + exception);
-            _image = null;
-        }
-        this.image = _image;
+        this.image = GameOfLife.personImage;
     }
 
     public boolean isMan() {

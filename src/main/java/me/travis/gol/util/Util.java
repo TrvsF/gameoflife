@@ -97,7 +97,7 @@ public class Util {
             extension = path.substring(index + 1);
         }
         if (!extension.equalsIgnoreCase("txt")) {
-            System.out.print("...\nERROR : cannot load file that is not txt");
+            System.out.print("...\nERROR : cannot load file that is not txt\n");
             return;
         }
         // Buffered Reader to read file
