@@ -1,2 +1,2 @@
 # gameoflife
-gameoflife in cmd java
+gameoflife in java/swing
